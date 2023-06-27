@@ -32,8 +32,6 @@ app.use(bodyParser.json());
 app.use('/api/v1/amy-doll', Router);
 
 app.use('/uploads', express.static("uploads"));
-app.use(notFound)
-
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });
@@ -56,3 +54,5 @@ const startApp = async () => {
 };
 
 startApp();
+
+app.use(notFound)
