@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 
-const dbUrl = 'mongodb://localhost:27017/AnyDollBackend';
+const dbUrl = process.env.MONGO_URI
 
 mongoose.set('debug', false);
 mongoose.Promise = global.Promise;
