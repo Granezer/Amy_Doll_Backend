@@ -18,7 +18,7 @@ const productSchema = new Schema({
         // required: true
     },
     image: {
-        type: Buffer
+        type: String
     }
 }, {
     toJSON: { virtuals: true }

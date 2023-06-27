@@ -5,9 +5,9 @@ const saveProduct = async (request, imageRequest) => {
     try{
         const { name, price } = request;
         // const { image } = imageRequest.file;
-        const imageBuffer = fs.readFileSync(imageRequest.file.path);
+        // const imageBuffer = fs.readFileSync(imageRequest.file.path);
 
-        let product = new Product({ name, price, image: imageBuffer });
+        let product = new Product({ name, price, image: imageRequest.file.path });
 
         let savedProduct = await product.save();
 
