@@ -5,6 +5,7 @@ const Router = require('./src/router/Router');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
+require('dotenv').config();
 
 const dbUrl = process.env.MONGO_URI
 
