@@ -22,15 +22,21 @@ require('dotenv').config();
 // db.on('open', () => {
 //   console.log('Database connected successfully!!!...');
 // });
-app.use(express.json());
+
 app.use(cors({
   origin: ["http://localhost:3000", "https://amydoll.onrender.com"],
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use('/api/v1/amy-doll', Router);
+
 app.use('/uploads', express.static("uploads"));
 app.use(notFound)
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the API');
+});
 
 const port = process.env.PORT || 8000
 
@@ -50,9 +56,3 @@ const startApp = async () => {
 };
 
 startApp();
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the API');
-});
-
-app.use('/api/v1/amy-doll', Router);
