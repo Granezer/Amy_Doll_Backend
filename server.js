@@ -15,7 +15,7 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.on('error', (error) => {
-  console.error(error);
+  console.error('Failed to connect to database....',error);
 });
 
 db.on('open', () => {
@@ -27,6 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/amy-doll', Router);
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the API');
+});
+
 const PORT = process.env.PORT || 8000
 
 app.listen(PORT, () => {

@@ -8,7 +8,6 @@ const PaymentController = require("../controller/PaymentController")
 const SessionController = require('../controller/SessionController')
 
 // Authentication
-router.post('/', AuthController.login)
 router.post('/auth/login', AuthController.login)
 router.post('/auth/register', AuthController.register)
 
