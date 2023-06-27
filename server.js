@@ -22,11 +22,11 @@ db.on('open', () => {
   console.log('Database connected successfully!!!...');
 });
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/amy-doll', Router);
-app.use(cors());
 const PORT = process.env.PORT || 8000
 
 app.listen(PORT, () => {
