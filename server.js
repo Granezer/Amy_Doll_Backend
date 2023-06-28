@@ -1,58 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Router = require('./src/router/Router');
-const bodyParser = require('body-parser');
-const connectDB = require('./src/db/connect')
-const notFound = require('./src/middleware/notfound')
+const connectDB = require('./src/db/connect');
+const notFound = require('./src/middleware/notfound');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
-// const dbUrl = process.env.MONGO_URI
+// Connect to MongoDB
+connectDB(process.env.MONGO_URI)
+  .then(() => {
+    console.log('Connected to the database');
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is listening on port ${process.env.PORT || 8000}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Could not connect to the database', error);
+  });
 
-// mongoose.set('debug', false);
-// mongoose.Promise = global.Promise;
-// mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-// const db = mongoose.connection;
+app.use(
+  cors()
+);
 
-// db.on('error', (error) => {
-//   console.error('Failed to connect to database....',error);
-// });
-
-// db.on('open', () => {
-//   console.log('Database connected successfully!!!...');
-// });
-
-app.use(cors({
-  origin: ["http://localhost:3000", "https://amydoll.onrender.com"],
-}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
+app.use(express.json());
 app.use('/api/v1/amy-doll', Router);
-
-app.use('/uploads', express.static("uploads"));
+app.use('/uploads', express.static('uploads'));
 app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });
-
-const port = process.env.PORT || 8000
-
-const startApp = async () => {
-  try {
-    await connectDB(process.env.MONGO_URI)
-      .then(() => {
-        console.log("Connected to the database");
-        app.listen(port, () =>
-          console.log(`Server is listening on port ${port} !!!`)
-        );
-      })
-      .catch((error) => console.error("Could not connect to the database"));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-startApp();
-
-app.use(notFound)
+app.use(notFound);
