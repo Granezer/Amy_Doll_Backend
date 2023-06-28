@@ -1,7 +1,8 @@
 const PaymentService = require('../services/PaymentService')
 
-const intializePayment = (req, res) => {
-    PaymentService.intializePayment(req.body)
+const intializePayment = async (req, res) => {
+    console.log('Hi I Got Here')
+    await PaymentService.intializePayment(req.body)
     .then((response) => {
         res.json({
           response
@@ -14,8 +15,9 @@ const intializePayment = (req, res) => {
       });
 }
 
-const verifyPayment = (req, res) => {
-    PaymentService.verifyPayment(req.params)
+const verifyPayment = async (req, res) => {
+  console.log('verify payment')
+    await PaymentService.verifyPayment(req.params)
     .then((response) => {
         res.json({
           response

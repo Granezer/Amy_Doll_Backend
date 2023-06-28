@@ -9,6 +9,7 @@ const generatePaymentRefUUID = async () => {
 
 const intializePayment = async (request) =>{
     const paymentRef = await generatePaymentRefUUID();
+    console,log('Payment Ref --> ', paymentRef)
     const { email, amount } = request;
     const url = process.env.INITIALIZE_PAYMENT_URL;
     const amountInKobo = amount * 100;
@@ -24,15 +25,13 @@ const intializePayment = async (request) =>{
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
         'Content-Type': 'application/json',
     };
-
     try {
         const response = await axios.post(url, value, { headers });
         const data = response.data;
         if (!data.status || !data.data.authorization_url) {
-            console.log('Hi I got here 4 data --> Failed to initiate transaction')
         throw new Error('Failed to initiate transaction');
         }
-        console.log('data --> ', data.data)
+        console.log('Payments Backend Data --> ', response)
         return data.data;
     } catch (error) {
         Logger.error(error);
