@@ -33,7 +33,7 @@ router.route('/cart/:itemId').delete(CartController.removeCartItem);
 router.route('/cart').get(CartController.getAllItemsInCart);
 
 // Payment
-router.route('/payment/initialize-payment').post(PaymentController.intializePayment);
+router.route('/payment/initialize-payment').post(PaymentController.initializePayment);
 router.route('/payment/verify-payment/:reference').get(PaymentController.verifyPayment);
 
 // Session

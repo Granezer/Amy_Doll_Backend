@@ -7,9 +7,8 @@ const generatePaymentRefUUID = async () => {
       return String(paymentReference).toUpperCase();
 }
 
-const intializePayment = async (request) =>{
+const initializePayment = async (request) =>{
     const paymentRef = await generatePaymentRefUUID();
-    console,log('Payment Ref --> ', paymentRef)
     const { email, amount } = request;
     const url = process.env.INITIALIZE_PAYMENT_URL;
     const amountInKobo = amount * 100;
@@ -31,7 +30,6 @@ const intializePayment = async (request) =>{
         if (!data.status || !data.data.authorization_url) {
         throw new Error('Failed to initiate transaction');
         }
-        console.log('Payments Backend Data --> ', response)
         return data.data;
     } catch (error) {
         Logger.error(error);
@@ -63,4 +61,4 @@ const verifyPayment = async (request) => {
     }
 }
 
-module.exports =  { intializePayment, verifyPayment }
+module.exports =  { initializePayment, verifyPayment }
