@@ -3,9 +3,9 @@ const fs = require ('fs');
 
 const saveProduct = async (request, imageRequest) => {
   try {
-    const {name, price, description} = request;
+    const {name, price, salesPrice, description} = request;
 
-    let product = new Product ({name, price, description});
+    let product = new Product ({name, price, salesPrice, description});
 
     if (imageRequest && imageRequest.file) {
       const imageBuffer = fs.readFileSync (imageRequest.file.path);
@@ -18,6 +18,7 @@ const saveProduct = async (request, imageRequest) => {
       id: savedProduct._id,
       name: savedProduct.name,
       price: savedProduct.price,
+      salesPrice: savedProduct.salesPrice,
       description: savedProduct.description,
       image: savedProduct.image,
     };
@@ -43,6 +44,7 @@ const getAllProducts = async () => {
         id: product._id,
         name: product.name,
         price: product.price,
+        salesPrice: product.salesPrice,
         description: product.description,
         image: `data:image/jpeg;base64, ${product.image}`,
       };
@@ -76,6 +78,7 @@ const getProductById = async productId => {
       id: product._id,
       name: product.name,
       price: product.price,
+      salesPrice: product.salesPrice,
       description: product.description,
       image: `data:image/jpeg;base64, ${product.image}`,
     };
@@ -95,9 +98,9 @@ const getProductById = async productId => {
 const updateProductById = async (request, imageRequest) => {
   try {
     const productId = request.id;
-    const {name, price, description} = request;
+    const {name, price, salesPrice, description} = request;
 
-    let updatedFields = {name, price, description};
+    let updatedFields = {name, price, salesPrice, description};
 
     if (imageRequest && imageRequest.file) {
       const imageBuffer = fs.readFileSync (imageRequest.file.path);
