@@ -1,6 +1,6 @@
 const AdminService = require('./AdminService');
-const validateLoginInput = require('../models/auth/validator/LoginValidation');
-const validateRegisterInput = require('../models/auth/validator/RegisterValidation');
+// const validateLoginInput = require('../models/auth/validator/LoginValidation');
+// const validateRegisterInput = require('../models/auth/validator/RegisterValidation');
 const Admin = require('../models/Admin');
 const jwt = require('jsonwebtoken')
 
