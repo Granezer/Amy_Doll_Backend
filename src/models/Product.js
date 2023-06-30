@@ -15,7 +15,6 @@ const productSchema = new Schema({
     },
     description: {
         type: String,
-        // required: true
     },
     image: {
         type: String
@@ -31,9 +30,16 @@ productSchema.pre('save', function (next) {
     return next();
 });
 
+// productSchema.virtual('imageURL').get(function () {
+//     if (this.image && this.image.length > 0) {
+//         return `data:image/png;base64,${this.image.toString('base64')}`;
+//     }
+//     return null;
+// });
+
 productSchema.virtual('imageURL').get(function () {
     if (this.image && this.image.length > 0) {
-        return `data:image/png;base64,${this.image.toString('base64')}`;
+      return this.image;
     }
     return null;
 });

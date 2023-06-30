@@ -1,104 +1,124 @@
-const Admin = require('../models/Admin');
-const { saveNewAddress } = require('./AddressService');
+const Admin = require ('../models/Admin');
 
-const createNewAdmin = async (request) => {
+const createNewAdmin = async request => {
   try {
-    let savedAddress = await saveNewAddress(request.address);
-    console.log("request --> ", request);
+    const existingAdmin = await findAdminByUserName (request.userName);
 
-    let newAdmin = new Admin({
-      userName: request.userName,
-      firstName: request.firstName,
-      lastName: request.lastName,
-      email: request.email,
-      phoneNumber: request.phoneNumber,
-      password: request.password,
-      gender: request.gender,
-      address: savedAddress._id
-    });
+    if (existingAdmin) {
+      return {
+        message: `Admin with this userName ${existingAdmin.userName} already exist`,
+        data: 'No data',
+      };
+    } else {
 
-    let savedAdmin = await newAdmin.save();
-    let response = {
-      userName: savedAdmin.userName,
-      firstName: savedAdmin.firstName,
-      lastName: savedAdmin.lastName,
-      email: savedAdmin.email,
-      phoneNumber: savedAdmin.phoneNumber,
-      password: savedAdmin.password,
-      gender: savedAdmin.gender
-    };
+      let newAdmin = new Admin ({
+        userName: request.userName,
+        firstName: request.firstName,
+        lastName: request.lastName,
+        email: request.email,
+        phoneNumber: request.phoneNumber,
+        password: request.password,
+        gender: request.gender,
+      });
+      console.log ('Hi I got here 2 --> ', newAdmin);
 
-    return {
-      message: 'Admin Successfully Created',
-      data: response
-    };
+      let savedAdmin = await newAdmin.save ();
+      let response = {
+        _id: savedAdmin._id,
+        userName: savedAdmin.userName,
+        firstName: savedAdmin.firstName,
+        lastName: savedAdmin.lastName,
+        email: savedAdmin.email,
+        phoneNumber: savedAdmin.phoneNumber,
+        password: savedAdmin.password,
+        gender: savedAdmin.gender,
+      };
+
+      console.log ('saved admin --> ', response);
+
+      return {
+        message: 'Admin Successfully Created',
+        data: response,
+      };
+    }
   } catch (error) {
     return {
       message: `Internal Server Error ${error}`,
-      data: 'Try Again'
+      data: 'Try Again',
     };
   }
 };
 
-const findAdminById = async (id) => {
+const findAdminById = async id => {
   try {
-    let admin = Admin.findById(id);
+    let admin = Admin.findById (id);
     return admin;
   } catch (error) {
     return {
       message: `Admin with id ${id} not found`,
-      data: 'Please Enter a valid user id'
+      data: 'Please Enter a valid user id',
     };
   }
 };
 
-const findAdminByEmail = async (email) => {
+const findAdminByEmail = async email => {
   try {
-    return await Admin.findOne({ email: email });
+    return await Admin.findOne ({email: email});
   } catch (error) {
     return {
       message: `No Admin found with this email ${email}`,
-      data: 'No data'
+      data: 'No data',
+    };
+  }
+};
+
+const findAdminByUserName = async userName => {
+  try {
+    return await Admin.findOne ({userName: userName});
+  } catch (error) {
+    return {
+      message: `No Admin found with this userName ${userName}`,
+      data: 'No data',
     };
   }
 };
 
 const findAllAdmins = async () => {
-  return Admin.find()
-    .then((response) => {
+  return Admin.find ()
+    .then (response => {
       return {
         message: 'Successfully retrieved all users from db',
-        data: response
+        data: response,
       };
     })
-    .catch((error) => {
+    .catch (error => {
       return {
         message: `Db is empty ${error}`,
-        data: []
+        data: [],
       };
     });
 };
 
-const findAdminByPhoneNumber = async (phoneNumber) => {
+const findAdminByPhoneNumber = async phoneNumber => {
   try {
-    let admin = await Admin.findOne({ phoneNumber: phoneNumber });
-    console.log('found user --> ', admin);
+    let admin = await Admin.findOne ({phoneNumber: phoneNumber});
+    console.log ('found user --> ', admin);
     return admin;
   } catch (error) {
     return {
       message: `No Admin found with this phoneNumber ${phoneNumber}`,
-      data: 'No data'
+      data: 'No data',
     };
   }
 };
 
 const updateAdmin = async (id, updatedData) => {
   try {
-    const admin = await Admin.findById(id);
+    const admin = await Admin.findById (id);
     if (!admin) {
       return {
         message: `Admin with ID ${id} not found`,
-        data: null
+        data: null,
       };
     }
 
@@ -111,23 +131,30 @@ const updateAdmin = async (id, updatedData) => {
     admin.gender = updatedData.gender || admin.gender;
 
     if (updatedData.address) {
-      const savedAddress = await saveNewAddress(updatedData.address);
+      const savedAddress = await saveNewAddress (updatedData.address);
       admin.address = savedAddress._id;
     }
 
-    const updatedAdmin = await admin.updateOne();
+    const updatedAdmin = await admin.updateOne ();
 
     return {
       message: 'Admin updated successfully',
-      data: updatedAdmin
+      data: updatedAdmin,
     };
   } catch (error) {
     return {
       message: `Failed to update admin with ID ${id}`,
-      data: error
+      data: error,
     };
   }
 };
 
-
-module.exports = { createNewAdmin, findAdminById, findAdminByEmail, findAllAdmins, findAdminByPhoneNumber, updateAdmin };
+module.exports = {
+  createNewAdmin,
+  findAdminById,
+  findAdminByEmail,
+  findAllAdmins,
+  findAdminByPhoneNumber,
+  updateAdmin,
+  findAdminByUserName,
+};

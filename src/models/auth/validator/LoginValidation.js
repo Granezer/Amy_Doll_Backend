@@ -1,22 +1,24 @@
-const validator = require('validator')
-const IsEmpty = require('./IsEmpty')
+const validator = require('validator');
+const isEmpty = require('./isEmpty');
 
 const validateLoginInput = (data) => {
-    const errors = {}
+  const errors = {};
 
-    data.userName = !IsEmpty(data.userName) ? data.userName : ''
-    data.password = !IsEmpty(data.password) ? data.password : ''
+  data.userName = !isEmpty(data.userName) ? data.userName : '';
+  data.password = !isEmpty(data.password) ? data.password : '';
 
-    if (validator.IsEmpty(data.userName)) {
-        errors.userName = ''
-    }
-    if (validator.IsEmpty(data.password)) {
-        errors.password = ''
-    }
-    return {
-        errors,
-        isValid: IsEmpty(errors)
-    }
-}
+  if (validator.isEmpty(data.userName)) {
+    errors.userName = 'Username is required';
+  }
 
-module.exports = validateLoginInput
+  if (validator.isEmpty(data.password)) {
+    errors.password = 'Password is required';
+  }
+
+  return {
+    errors,
+    isValid: isEmpty(errors),
+  };
+};
+
+module.exports = validateLoginInput;

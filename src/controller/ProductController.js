@@ -45,7 +45,7 @@ const getProductById = (req, res) => {
 }
 
 const updatedProduct = (req, res) => {
-    ProductService.updateProductById(req)
+    ProductService.updateProductById(req.body, req)
     .then((response) => {
         res.json({
           response

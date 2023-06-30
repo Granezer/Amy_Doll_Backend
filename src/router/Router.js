@@ -20,7 +20,7 @@ router.route('/admin-email/:email').get(AdminController.findByEmail)
 router.route('/admin-phoneNumber/:phoneNumber').get(AdminController.findAdminByPhoneNumber);
 
 // Product
-router.route('/product/create').post(multerInstance.single('image'), ProductController.createProduct);
+router.post('/product/create', multerInstance.single("image"), ProductController.createProduct);
 router.route('/product/all').get(ProductController.getAllProducts);
 router.route('/product/:id').get(ProductController.getProductById);
 router.route('/product/:id').put(ProductController.updatedProduct);
