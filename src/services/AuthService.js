@@ -40,7 +40,6 @@ const loginValidation = async (request) => {
     //         data: ''
     //     }
     // }
-
     try {
         // const admin = await Admin.findOne({
         //     userName: request.userName
