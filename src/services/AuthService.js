@@ -32,14 +32,14 @@ const registerValidation = async (request) => {
   
 
 const loginValidation = async (request) => {
-    const { isValid } = validateLoginInput(request);
+    // const { isValid } = validateLoginInput(request);
 
-    if(!isValid){
-        return{
-            message: `Username and password is required`,
-            data: ''
-        }
-    }
+    // if(!isValid){
+    //     return{
+    //         message: `Username and password is required`,
+    //         data: ''
+    //     }
+    // }
 
     try {
         // const admin = await Admin.findOne({
