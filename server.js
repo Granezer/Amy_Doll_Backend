@@ -7,12 +7,13 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
+const PORT = process.env.PORT || 8000
 // Connect to MongoDB
 connectDB(process.env.MONGO_URI)
   .then(() => {
     console.log('Connected to the database');
-    app.listen(8000, () => {
-      console.log(`Server is listening on port ${8000}`);
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
     });
   })
   .catch((error) => {
