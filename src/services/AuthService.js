@@ -42,9 +42,10 @@ const loginValidation = async (request) => {
     }
 
     try {
-        const admin = await Admin.findOne({
-            userName: request.userName
-        })
+        // const admin = await Admin.findOne({
+        //     userName: request.userName
+        // })
+        const admin = AdminService.findAdminByUserName(userName)
 
         if(!admin){
             return{
