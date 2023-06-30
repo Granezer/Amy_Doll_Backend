@@ -8,11 +8,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 // Connect to MongoDB
-const dbUrl = 'mongodb://localhost:27017/AnyDollBackend'
+const dbUrl = process.env.MONGO_URI
+const PORT = process.env.PORT || 8000
 connectDB(dbUrl)
   .then(() => {
     console.log('Connected to the database');
-    app.listen(8000, () => {
+    app.listen(PORT, () => {
       console.log(`Server is listening on port ${8000}`);
     });
   })
