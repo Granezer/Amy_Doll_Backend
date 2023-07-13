@@ -18,7 +18,6 @@ const initializePayment = async (request) =>{
         metadata: {
         paymentRefUUID: paymentRef
         },
-        // reference: paymentRef
     });
     const headers = {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
@@ -39,21 +38,19 @@ const initializePayment = async (request) =>{
 
 const verifyPayment = async (request) => {
     const { reference } = request;
-    
     const url = `${process.env.PAYMENT_VERIFICATION_URL}${reference}`;
-    console.log('Hi I got here url --> ', reference)
     const headers = {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
     };
     try {
         const response = await axios.get(url, { headers });
         const paymentResponse = response.data.data;
-        console.log('Hi I got here data --> ', paymentResponse)
-
-        if (paymentResponse?.paidAt || paymentResponse.paid_at) {
-        return paymentResponse;
+        if (response.data.data.status === 'success') {
+            return {
+              message: 'Successful',
+              data: response.data.data,
+            };
         }
-
         throw new Error('Payment Verification Failed');
     } catch (error) {
         Logger.error(error);

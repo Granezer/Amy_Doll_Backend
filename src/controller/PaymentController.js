@@ -15,7 +15,6 @@ const initializePayment = async (req, res) => {
 }
 
 const verifyPayment = async (req, res) => {
-  console.log('verify payment')
     await PaymentService.verifyPayment(req.params)
     .then((response) => {
         res.json({

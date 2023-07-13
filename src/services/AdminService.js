@@ -1,17 +1,16 @@
 const Admin = require ('../models/Admin');
 
-const createNewAdmin = async request => {
+const createNewAdmin = async (request) => {
   try {
-    const existingAdmin = await findAdminByUserName (request.userName);
+    const existingAdmin = await findAdminByUserName(request.userName);
 
     if (existingAdmin) {
       return {
-        message: `Admin with this userName ${existingAdmin.userName} already exist`,
-        data: 'No data',
+        message: 'Username already taken',
+        data: null,
       };
     } else {
-
-      let newAdmin = new Admin ({
+      const newAdmin = new Admin({
         userName: request.userName,
         firstName: request.firstName,
         lastName: request.lastName,
@@ -20,21 +19,17 @@ const createNewAdmin = async request => {
         password: request.password,
         gender: request.gender,
       });
-      console.log ('Hi I got here 2 --> ', newAdmin);
 
-      let savedAdmin = await newAdmin.save ();
-      let response = {
+      const savedAdmin = await newAdmin.save();
+      const response = {
         _id: savedAdmin._id,
         userName: savedAdmin.userName,
         firstName: savedAdmin.firstName,
         lastName: savedAdmin.lastName,
         email: savedAdmin.email,
         phoneNumber: savedAdmin.phoneNumber,
-        password: savedAdmin.password,
         gender: savedAdmin.gender,
       };
-
-      console.log ('saved admin --> ', response);
 
       return {
         message: 'Admin Successfully Created',
@@ -42,9 +37,10 @@ const createNewAdmin = async request => {
       };
     }
   } catch (error) {
+    console.error('Error creating admin:', error);
     return {
-      message: `Internal Server Error ${error}`,
-      data: 'Try Again',
+      message: 'Error creating admin',
+      data: null,
     };
   }
 };
@@ -72,14 +68,14 @@ const findAdminByEmail = async email => {
   }
 };
 
-const findAdminByUserName = async userName => {
+const findAdminByUserName = async (userName) => {
   try {
-    return await Admin.findOne ({userName: userName});
+      return await Admin.findOne({ userName: userName });
   } catch (error) {
-    return {
-      message: `No Admin found with this userName ${userName}`,
-      data: 'No data',
-    };
+      return {
+          message: `No Admin found with this userName ${userName}`,
+          data: 'No data'
+      };
   }
 };
 
@@ -102,7 +98,6 @@ const findAllAdmins = async () => {
 const findAdminByPhoneNumber = async phoneNumber => {
   try {
     let admin = await Admin.findOne ({phoneNumber: phoneNumber});
-    console.log ('found user --> ', admin);
     return admin;
   } catch (error) {
     return {

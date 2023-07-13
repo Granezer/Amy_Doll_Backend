@@ -2,7 +2,6 @@ const ProductService = require('../services/ProductService');
 
 
 const createProduct = (req, res) => {
-  console.log('request --> ', req.body)
     ProductService.saveProduct(req.body, req)
     .then((response) => {
       res.json({

@@ -37,7 +37,7 @@ const saveProduct = async (request, imageRequest) => {
 
 const getAllProducts = async () => {
   try {
-    const products = await Product.find ();
+    const products = await Product.find();
 
     const response = products.map (product => {
       return {
