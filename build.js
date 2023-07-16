@@ -1,7 +1,7 @@
-const { spawn } = require('child_process');
+const { exec } = require('child_process');
 
 const runBuild = () => {
-  const buildProcess = spawn('npm', ['run', 'build'], { shell: true });
+  const buildProcess = exec('npm run build');
 
   buildProcess.stdout.on('data', (data) => {
     console.log(`[BUILD]: ${data}`);
