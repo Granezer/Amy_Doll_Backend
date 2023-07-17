@@ -37,7 +37,7 @@ const createNewAdmin = async (request) => {
       };
     }
   } catch (error) {
-    console.error('Error creating admin:', error);
+    // console.error('Error creating admin:', error);
     return {
       message: 'Error creating admin',
       data: null,

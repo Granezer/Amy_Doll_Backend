@@ -90,7 +90,7 @@ const getAllItemsInCart = async (request) => {
       data: items,
     };
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return {
       message: `Failed to retrieve items in cart: ${error}`,
       data: null,
@@ -182,7 +182,7 @@ const removeAllItemsFromCart = async (request) => {
       data: cart,
     };
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return {
       message: `Failed to remove items from cart: ${error}`,
       data: null,
